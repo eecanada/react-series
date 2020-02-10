@@ -1,31 +1,56 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
 
-
-import SeriesList from '../../components/SeriesList'
-
+import SeriesList from "../../components/SeriesList";
+import { loadPartialConfig } from "@babel/core";
 
 class Series extends Component {
   state = {
-    series: []
-  }
+    series: [],
+    seriesName: '',
+    isFetching: false
+  };
 
   onSeriesInputChange = e => {
-    fetch (`http://api.tvmaze.com/search/shows?q=${e.target.value}`)
-    .then(response => response.json())
-    .then(json => this.setState({series: json}))
-  }
+    this.setState({ seriesName: e.target.value, isFetching: true });
 
-  render (){
+    fetch(`http://api.tvmaze.com/search/shows?q=${e.target.value}`)
+      .then(response => response.json())
+      .then(json => this.setState({ series: json, isFetching: false }));
+  };
+
+  render() {
+    const { series, seriesName, isFetching } = this.state;
     return (
-      <div> 
-        The length of series array - {this.state.series.length} 
+      <div>
         <div>
-          <input type="text" onChange={this.onSeriesInputChange}/>
+          <input
+            value={seriesName}
+            type="text"
+            onChange={this.onSeriesInputChange}
+          />
         </div>
-        <SeriesList list={this.state.series} />
+        {
+          series.length === 0 && seriesName.trim() === ''
+          && 
+          <p> Please enter a series name into the input </p>
+        }
+      
+        {
+          series.length === 0 && seriesName.trim() !== '' 
+          && 
+          <p> No Tv Series have been found with this name</p>
+        }
+
+        {
+          isFetching && <p> Loading...</p> 
+        }
+        
+        {
+          !isFetching &&  <SeriesList list={this.state.series} /> 
+        }
       </div>
-    )
+    );
   }
 }
 
-export default Series
+export default Series;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
+import Loader from '../../components/Loader'
 import SeriesList from "../../components/SeriesList";
-import { loadPartialConfig } from "@babel/core";
 
 class Series extends Component {
   state = {
@@ -30,24 +30,25 @@ class Series extends Component {
           />
         </div>
         {
-          series.length === 0 && seriesName.trim() === ''
+          !isFetching && series.length === 0 && seriesName.trim() === ''
           && 
-          <p> Please enter a series name into the input </p>
+          <p> Please enter a series name </p>
         }
       
         {
-          series.length === 0 && seriesName.trim() !== '' 
+          !isFetching && series.length === 0 && seriesName.trim() !== '' 
           && 
-          <p> No Tv Series have been found with this name</p>
+          <p> No TV series have been found with this name</p>
         }
 
         {
-          isFetching && <p> Loading...</p> 
+          isFetching && <Loader/>
         }
         
         {
           !isFetching &&  <SeriesList list={this.state.series} /> 
         }
+
       </div>
     );
   }

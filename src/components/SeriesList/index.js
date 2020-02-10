@@ -2,7 +2,7 @@ import React from "react";
 
 import "./style.css";
 
-const SeriesListItem = ({series})=> (
+const SeriesListItem = ({ series }) => (
   <li key={series.show.id}>{series.show.name}</li>
 );
 
@@ -11,7 +11,7 @@ const SeriesList = props => {
     <div>
       <ul className="series-list">
         {props.list.map(series => (
-          <SeriesListItem series={series}/>
+          <SeriesListItem series={series} key={series.show.id}/>
         ))}
       </ul>
     </div>

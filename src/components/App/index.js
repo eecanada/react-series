@@ -18,6 +18,7 @@ class App extends Component {
         </header>
         <Intro message='Here you can find all of your most loved series'/>
         <Series/>
+
       </div>
     )
   }

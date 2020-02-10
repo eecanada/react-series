@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Intro = (props) => (
-  <p clasName="App-intro">
+  <p className="App-intro">
     {props.message}
   </p> 
 )
